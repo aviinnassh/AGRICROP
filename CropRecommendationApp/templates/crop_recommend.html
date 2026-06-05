@@ -1,0 +1,353 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Recommendation || Crop || AGRICROP</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1e633f;
+            --primary-light: #e8f5e9;
+            --secondary: #278850;
+            --text-dark: #123524;
+            --text-gray: #666666;
+            --bg-light: #f6faf7;
+            --white: #ffffff;
+            --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
+            --shadow-md: 0 10px 30px rgba(0,0,0,0.05);
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            padding-top: 120px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Header */
+        .page-header-clean {
+            text-align: center;
+            margin-top: 80px;
+            margin-bottom: 60px;
+        }
+
+        .page-header-clean h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .page-header-clean h2 span {
+            color: var(--secondary);
+        }
+
+        .page-header-clean p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Two Column Layout */
+        .recommend-layout {
+            display: flex;
+            gap: 40px;
+            padding-bottom: 80px;
+        }
+
+        .recommend-form-wrapper {
+            flex: 1 1 60%;
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .recommend-form-wrapper h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .recommend-accuracy-wrapper {
+            flex: 1 1 40%;
+            background: linear-gradient(135deg, #1e633f, #278850);
+            border-radius: var(--border-radius-lg);
+            padding: 50px 40px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(39, 136, 80, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommend-accuracy-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-grid .full-width {
+            grid-column: span 2;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid #eaeaea;
+            background: #f9f9f9;
+            font-size: 15px;
+            transition: all 0.3s;
+            color: var(--text-dark);
+        }
+        
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(39, 136, 80, 0.1);
+        }
+        
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn-submit:hover {
+            background: var(--secondary);
+        }
+
+        /* Accuracy Box */
+        .accuracy-box {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .accuracy-box h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .accuracy-box p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+        
+        .progress-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 10px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .progress-circle .value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+        
+        .progress-circle .percent {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Clean Footer */
+        .footer-clean {
+            background-color: var(--white);
+            padding: 30px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .footer-clean p {
+            color: var(--text-gray);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .footer-clean a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 992px) {
+            .recommend-layout {
+                flex-direction: column;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-grid .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'navbar.html' with active_page='recommend' %}
+
+    <div class="container">
+        <div class="page-header-clean">
+            <h2>Crop <span>Recommendation</span></h2>
+            <p>Get the best crop suggestions based on your soil, climate and seasonal conditions.</p>
+        </div>
+
+        <div class="recommend-layout">
+            <!-- Left Side: Form -->
+            <div class="recommend-form-wrapper">
+                <h3>Fill Details for Recommendation</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="full-width">
+                            {% if request.user.is_authenticated %}
+                            <input type="text" name="farmer_name" class="form-control" value="{{ request.user.username }}" readonly style="background-color: #f3f3f3; color: #888; cursor: not-allowed;">
+                            {% else %}
+                            <input type="text" name="farmer_name" class="form-control" placeholder="Name of Farmer" required>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <input type="text" name="soil_nitrogen" class="form-control" placeholder="Nitrogen in Soil">
+                        </div>
+                        <div>
+                            <input type="text" name="soil_phosphorous" class="form-control" placeholder="Phosphorous in Soil">
+                        </div>
+                        <div>
+                            <input type="text" name="soil_potassium" class="form-control" placeholder="Potassium in Soil">
+                        </div>
+                        <div>
+                            <input type="text" name="soil_ph" class="form-control" placeholder="pH Value of Soil">
+                        </div>
+                        
+                        <div class="full-width">
+                            <input type="text" name="soil_temperature" class="form-control" placeholder="Temperature of Soil (°C)">
+                        </div>
+                        <div class="full-width">
+                            <input type="text" name="relative_humidity" class="form-control" placeholder="Relative Humidity (%)">
+                        </div>
+                        <div class="full-width">
+                            <input type="text" name="rainfall" class="form-control" placeholder="Rainfall (mm)">
+                        </div>
+                        
+                        <div class="full-width">
+                            <button type="submit" class="btn-submit">Get Suggestion</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Side: Info -->
+            <div class="recommend-accuracy-wrapper">
+                <div class="accuracy-box" style="text-align: left;">
+                    <h3 style="display: flex; align-items: center; gap: 15px;"><i class="fa-solid fa-seedling"></i> Smart Crop Selection</h3>
+                    <p style="margin-bottom: 30px;">Every field is unique. Our advanced AI model analyzes your specific environmental and soil parameters to suggest the most profitable and suitable crop for your land.</p>
+                    
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 25px; display: flex; align-items: center; gap: 20px;">
+                            <div style="background: rgba(255,255,255,0.2); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-flask" style="font-size: 1.5rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <strong style="display: block; font-size: 1.1rem;">Soil Nutrients</strong>
+                                <span style="font-size: 0.95rem; opacity: 0.8;">Analyzes N-P-K values for optimal growth.</span>
+                            </div>
+                        </li>
+                        <li style="margin-bottom: 25px; display: flex; align-items: center; gap: 20px;">
+                            <div style="background: rgba(255,255,255,0.2); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-cloud-sun-rain" style="font-size: 1.5rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <strong style="display: block; font-size: 1.1rem;">Climate Conditions</strong>
+                                <span style="font-size: 0.95rem; opacity: 0.8;">Factors in temperature, humidity, and rainfall.</span>
+                            </div>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 20px;">
+                            <div style="background: rgba(255,255,255,0.2); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-chart-line" style="font-size: 1.5rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <strong style="display: block; font-size: 1.1rem;">Higher Yields</strong>
+                                <span style="font-size: 0.95rem; opacity: 0.8;">Data-driven choices lead to better harvests.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-clean">
+        <div class="container">
+            <p>AGRICROP - Smart Farming Platform</p>
+        </div>
+    </footer>
+
+</body>
+</html>

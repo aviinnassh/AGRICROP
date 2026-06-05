@@ -1,0 +1,310 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Disease Detection || AGRICROP</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1e633f;
+            --primary-light: #e8f5e9;
+            --secondary: #278850;
+            --text-dark: #123524;
+            --text-gray: #666666;
+            --bg-light: #f6faf7;
+            --white: #ffffff;
+            --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
+            --shadow-md: 0 10px 30px rgba(0,0,0,0.05);
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            padding-top: 120px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Header */
+        .page-header-clean {
+            text-align: center;
+            margin-top: 80px;
+            margin-bottom: 60px;
+        }
+
+        .page-header-clean h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .page-header-clean h2 span {
+            color: #d32f2f; /* Red color for disease */
+        }
+
+        .page-header-clean p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Two Column Layout */
+        .recommend-layout {
+            display: flex;
+            gap: 40px;
+            padding-bottom: 80px;
+        }
+
+        .recommend-form-wrapper {
+            flex: 1 1 50%;
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .recommend-form-wrapper h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .recommend-accuracy-wrapper {
+            flex: 1 1 50%;
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            border-radius: var(--border-radius-lg);
+            padding: 50px 40px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(211, 47, 47, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommend-accuracy-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        /* Upload Zone Styles */
+        .upload-zone {
+            border: 2px dashed #d32f2f;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #ffebee;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .upload-zone:hover {
+            background: #ffcdd2;
+        }
+
+        .upload-zone i {
+            font-size: 3rem;
+            color: #d32f2f;
+            margin-bottom: 15px;
+        }
+
+        .upload-zone p {
+            font-weight: 600;
+            color: #d32f2f;
+            margin-bottom: 5px;
+        }
+
+        .upload-zone span {
+            font-size: 0.9rem;
+            color: #e57373;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid #eaeaea;
+            background: #f9f9f9;
+            font-size: 15px;
+            transition: all 0.3s;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+        
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #d32f2f;
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.1);
+        }
+        
+        .btn-submit {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        
+        .btn-submit:hover {
+            background: #b71c1c;
+        }
+
+        /* Accuracy Box */
+        .accuracy-box {
+            position: relative;
+            z-index: 2;
+            text-align: left;
+        }
+
+        /* Clean Footer */
+        .footer-clean {
+            background-color: var(--white);
+            padding: 30px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .footer-clean p {
+            color: var(--text-gray);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 992px) {
+            .recommend-layout {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'navbar.html' with active_page='disease' %}
+
+    <div class="container">
+        <div class="page-header-clean">
+            <h2>Disease <span>Detection</span></h2>
+            <p>Upload a clear image of an affected leaf to instantly detect potential diseases using our AI model.</p>
+        </div>
+
+        <div class="recommend-layout">
+            <!-- Left Side: Form -->
+            <div class="recommend-form-wrapper">
+                <h3>Scan Leaf Image</h3>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <label for="leaf_upload" class="upload-zone">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <p>Click to upload leaf image</p>
+                        <span>JPG, PNG up to 10MB</span>
+                    </label>
+                    <input type="file" name="leaf_image" id="leaf_upload" style="display: none;" accept="image/*" required>
+                    
+                    <input type="text" name="crop_type" class="form-control" placeholder="Plant Name (Optional)">
+                    
+                    <button type="submit" class="btn-submit">Analyze Image</button>
+                </form>
+            </div>
+
+            <!-- Right Side: Info -->
+            <div class="recommend-accuracy-wrapper">
+                <div class="accuracy-box">
+                    <h3 style="display: flex; align-items: center; gap: 15px;"><i class="fa-solid fa-microscope"></i> Early Detection</h3>
+                    <p style="margin-bottom: 30px;">Identifying diseases early can save your entire harvest. Our neural network analyzes visual patterns on leaves to diagnose problems instantly.</p>
+                    
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 25px; display: flex; align-items: center; gap: 20px;">
+                            <div style="background: rgba(255,255,255,0.2); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-camera" style="font-size: 1.5rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <strong style="display: block; font-size: 1.1rem;">Take a Photo</strong>
+                                <span style="font-size: 0.95rem; opacity: 0.8;">Ensure good lighting and focus on spots.</span>
+                            </div>
+                        </li>
+                        <li style="margin-bottom: 25px; display: flex; align-items: center; gap: 20px;">
+                            <div style="background: rgba(255,255,255,0.2); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-bolt" style="font-size: 1.5rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <strong style="display: block; font-size: 1.1rem;">Instant AI Analysis</strong>
+                                <span style="font-size: 0.95rem; opacity: 0.8;">Processed in milliseconds on our servers.</span>
+                            </div>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 20px;">
+                            <div style="background: rgba(255,255,255,0.2); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-prescription-bottle-medical" style="font-size: 1.5rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <strong style="display: block; font-size: 1.1rem;">Actionable Solutions</strong>
+                                <span style="font-size: 0.95rem; opacity: 0.8;">Get immediate treatment recommendations.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-clean">
+        <div class="container">
+            <p>AGRICROP - Smart Farming Platform</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Simple script to show the selected file name
+        document.getElementById('leaf_upload').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Click to upload leaf image';
+            const textElement = this.previousElementSibling.querySelector('p');
+            textElement.textContent = fileName;
+        });
+    </script>
+
+</body>
+</html>

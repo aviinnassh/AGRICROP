@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{crop_details.crop_name}} Details || AGRICROP</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1e633f;
+            --primary-light: #e8f5e9;
+            --secondary: #278850;
+            --text-dark: #123524;
+            --text-gray: #666666;
+            --bg-light: #f6faf7;
+            --white: #ffffff;
+            --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
+            --shadow-md: 0 10px 30px rgba(0,0,0,0.05);
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            padding-top: 120px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Header */
+        .page-header-clean {
+            text-align: center;
+            margin-top: 80px;
+            margin-bottom: 60px;
+        }
+
+        .page-header-clean h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            text-transform: capitalize;
+        }
+
+        .page-header-clean h2 span {
+            color: var(--secondary);
+        }
+
+        /* Detail Layout */
+        .detail-layout {
+            display: flex;
+            gap: 50px;
+            padding-bottom: 80px;
+            align-items: center;
+        }
+
+        .detail-image-wrapper {
+            flex: 1 1 50%;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+        
+        .detail-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .detail-content-wrapper {
+            flex: 1 1 50%;
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 50px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .detail-content-wrapper h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            text-transform: capitalize;
+        }
+
+        .detail-content-wrapper p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+        }
+
+        .category-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Clean Footer */
+        .footer-clean {
+            background-color: var(--white);
+            padding: 30px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .footer-clean p {
+            color: var(--text-gray);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 992px) {
+            .detail-layout {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'navbar.html' with active_page='crop' %}
+
+    <div class="container">
+        <div class="page-header-clean">
+            <h2>Crop <span>Details</span></h2>
+        </div>
+
+        <div class="detail-layout">
+            <div class="detail-image-wrapper">
+                <img src="{% static 'assets/images/'%}{{crop_details.crop_image}}" alt="{{crop_details.crop_name}}">
+            </div>
+            
+            <div class="detail-content-wrapper">
+                <h3>{{crop_details.crop_name}}</h3>
+                <p>{{crop_details.crop_details}}</p>
+                <div class="category-tag">
+                    <i class="fa-solid fa-tag"></i> Category: {{crop_details.crop_category}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-clean">
+        <div class="container">
+            <p>AGRICROP - Smart Farming Platform</p>
+        </div>
+    </footer>
+
+</body>
+</html>

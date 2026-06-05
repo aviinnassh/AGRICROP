@@ -1,0 +1,350 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fertilizer Suggestion || AGRICROP</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #1e633f;
+            --primary-light: #e8f5e9;
+            --secondary: #278850;
+            --text-dark: #123524;
+            --text-gray: #666666;
+            --bg-light: #f6faf7;
+            --white: #ffffff;
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            padding-top: 120px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Header */
+        .page-header-clean {
+            text-align: center;
+            margin-top: 80px;
+            margin-bottom: 60px;
+        }
+
+        .page-header-clean h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .page-header-clean h2 span {
+            color: #8b5a2b;
+            /* Coffee color for fertilizer */
+        }
+
+        .page-header-clean p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Two Column Layout */
+        .recommend-layout {
+            display: flex;
+            gap: 40px;
+            padding-bottom: 80px;
+        }
+
+        .recommend-form-wrapper {
+            flex: 1 1 60%;
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .recommend-form-wrapper h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .recommend-accuracy-wrapper {
+            flex: 1 1 40%;
+            background: linear-gradient(135deg, #8b5a2b, #4a3224);
+            border-radius: var(--border-radius-lg);
+            padding: 50px 40px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(74, 50, 36, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommend-accuracy-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-grid .full-width {
+            grid-column: span 2;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid #eaeaea;
+            background: #f9f9f9;
+            font-size: 15px;
+            transition: all 0.3s;
+            color: var(--text-dark);
+        }
+
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #8b5a2b;
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(139, 90, 43, 0.1);
+        }
+
+        .btn-submit {
+            background: #8b5a2b;
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #4a3224;
+        }
+
+        /* Accuracy Box */
+        .accuracy-box {
+            position: relative;
+            z-index: 2;
+            text-align: left;
+        }
+
+        /* Clean Footer */
+        .footer-clean {
+            background-color: var(--white);
+            padding: 30px 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .footer-clean p {
+            color: var(--text-gray);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 992px) {
+            .recommend-layout {
+                flex-direction: column;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    {% include 'navbar.html' with active_page='fertilizer' %}
+
+    <div class="container">
+        <div class="page-header-clean">
+            <h2>Fertilizer <span>Suggestion</span></h2>
+            <p>Find the right fertilizer based on nutrient levels and improve soil health effectively.</p>
+        </div>
+
+        <div class="recommend-layout">
+            <!-- Left Side: Form -->
+            <div class="recommend-form-wrapper">
+                <h3>Fill Soil Details</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div>
+                            <input type="number" step="0.1" name="temperature" class="form-control"
+                                placeholder="Temperature (°C)" required>
+                        </div>
+                        <div>
+                            <input type="number" step="0.1" name="humidity" class="form-control"
+                                placeholder="Humidity (%)" required>
+                        </div>
+                        <div>
+                            <input type="number" step="0.1" name="moisture" class="form-control" placeholder="Moisture"
+                                required>
+                        </div>
+                        <div>
+                            <select name="soil_type" class="form-control" required style="height: 50px;">
+                                <option value="" disabled selected>Select Soil Type</option>
+                                <option value="Loamy">Loamy</option>
+                                <option value="Sandy">Sandy</option>
+                                <option value="Clay">Clay</option>
+                                <option value="Black Soil">Black Soil</option>
+                                <option value="Silty">Silty</option>
+                                <option value="Red Soil">Red Soil</option>
+                                <option value="Coastal">Coastal</option>
+                                <option value="Alluvial">Alluvial</option>
+                                <option value="Laterite">Laterite</option>
+                                <option value="Acidic">Acidic</option>
+                            </select>
+                        </div>
+                        <div class="full-width">
+                            <select name="crop_type" class="form-control" required style="height: 50px;">
+                                <option value="" disabled selected>Select Crop Type</option>
+                                {% for c in crops %}
+                                <option value="{{ c.crop_name|title }}">{{ c.crop_name|title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <input type="number" name="nitrogen" class="form-control" placeholder="Nitrogen in Soil"
+                                required>
+                        </div>
+                        <div>
+                            <input type="number" name="potassium" class="form-control" placeholder="Potassium in Soil"
+                                required>
+                        </div>
+                        <div class="full-width">
+                            <input type="number" name="phosphorous" class="form-control"
+                                placeholder="Phosphorous in Soil" required>
+                        </div>
+
+                        <div class="full-width">
+                            <button type="submit" class="btn-submit">Get Suggestion</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Side: Info -->
+            <div class="recommend-accuracy-wrapper">
+                <div class="accuracy-box">
+                    <h3 style="display: flex; align-items: center; gap: 15px; font-size: 1.8rem; margin-bottom: 15px;">
+                        <div style="background: rgba(255, 255, 255, 0.2); width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.3);">
+                            <i class="fa-solid fa-flask" style="font-size: 1.5rem; color: #fff;"></i>
+                        </div>
+                        Grow With Fertilizer
+                    </h3>
+                    <p style="margin-bottom: 35px; font-size: 1.05rem; line-height: 1.6; opacity: 0.95;">Our advanced
+                        Machine Learning model doesn't just look at NPK. It analyzes your entire micro-climate and soil
+                        profile to recommend the perfect fertilizer with <strong>95% accuracy</strong>.</p>
+
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 25px; display: flex; align-items: center; gap: 20px;">
+                            <div
+                                style="background: rgba(255,255,255,0.2); width: 55px; height: 55px; border-radius: 12px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                                <i class="fa-solid fa-cloud-sun" style="font-size: 1.5rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <strong style="display: block; font-size: 1.15rem; margin-bottom: 4px;">Climate
+                                    Analysis</strong>
+                                <span style="font-size: 0.95rem; opacity: 0.85;">Factors in exact Temperature &
+                                    Humidity.</span>
+                            </div>
+                        </li>
+                        <li style="margin-bottom: 25px; display: flex; align-items: center; gap: 20px;">
+                            <div
+                                style="background: rgba(255,255,255,0.2); width: 55px; height: 55px; border-radius: 12px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                                <i class="fa-solid fa-layer-group" style="font-size: 1.5rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <strong style="display: block; font-size: 1.15rem; margin-bottom: 4px;">Soil
+                                    Profiling</strong>
+                                <span style="font-size: 0.95rem; opacity: 0.85;">Accounts for detailed Moisture & Soil
+                                    Type.</span>
+                            </div>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 20px;">
+                            <div
+                                style="background: rgba(255,255,255,0.2); width: 55px; height: 55px; border-radius: 12px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                                <i class="fa-solid fa-flask" style="font-size: 1.5rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <strong style="display: block; font-size: 1.15rem; margin-bottom: 4px;">NPK
+                                    Balance</strong>
+                                <span style="font-size: 0.95rem; opacity: 0.85;">Optimizes Nitrogen, Phosphorous &
+                                    Potassium.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-clean">
+        <div class="container">
+            <p>AGRICROP - Smart Farming Platform</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

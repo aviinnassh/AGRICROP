@@ -1,0 +1,253 @@
+{% load static %}
+<style>
+    .pill-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 1rem 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        margin: 20px auto;
+        width: 95%;
+        max-width: 1400px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .pill-navbar .logo-area {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #348A46;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-right: 20px;
+        border-right: 1px solid #eaeaea;
+    }
+
+    .pill-navbar .nav-items {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .pill-navbar .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 18px;
+        border-radius: 8px;
+        color: #1F2937;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+    .pill-navbar .nav-link i {
+        font-size: 18px;
+        color: #123524;
+    }
+
+    .pill-navbar .nav-link:hover {
+        background-color: #f5f5f5;
+    }
+
+    .pill-navbar .nav-link.active {
+        background-color: #EEF7EA;
+        color: #2F8F46;
+    }
+
+    .pill-navbar .nav-link.active i {
+        color: #2F8F46;
+    }
+
+    .pill-navbar .user-area {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-left: 20px;
+        border-left: 1px solid #eaeaea;
+        position: relative;
+    }
+
+    .pill-navbar .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #1F2937;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .pill-navbar .user-icon {
+        width: 35px;
+        height: 35px;
+        background-color: #EEF7EA;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2F8F46;
+    }
+
+    .pill-navbar .auth-links {
+        display: flex;
+        gap: 10px;
+    }
+
+    .pill-navbar .auth-links a {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2F8F46;
+        text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+
+    .pill-navbar .auth-links a:hover {
+        background-color: #EEF7EA;
+    }
+
+    .pill-navbar .logout-dropdown {
+        display: none;
+        position: absolute;
+        top: 55px;
+        right: 0;
+        background: #ffffff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 5px;
+        min-width: 130px;
+        z-index: 1001;
+    }
+
+    .pill-navbar .logout-dropdown.show {
+        display: block;
+        animation: fadeIn 0.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .pill-navbar .logout-dropdown a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #d9534f;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 15px;
+        border-radius: 6px;
+        transition: background-color 0.3s;
+    }
+
+    .pill-navbar .logout-dropdown a:hover {
+        background-color: #ffeeee;
+    }
+
+    /* Ensure body doesn't hide content under absolute navbar */
+    body {
+        padding-top: 80px;
+    }
+</style>
+
+<nav class="pill-navbar">
+    <a href="{% url 'home' %}" class="logo-area">
+        <i class="fa-solid fa-leaf"></i> AGRICROP
+    </a>
+
+    <ul class="nav-items">
+        <li>
+            <a href="{% url 'home' %}" class="nav-link {% if active_page == 'home' %}active{% endif %}">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'crop' %}" class="nav-link {% if active_page == 'crop' %}active{% endif %}">
+                <i class="fas fa-leaf"></i> Crop
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'crop_recommend' %}" class="nav-link {% if active_page == 'recommend' %}active{% endif %}">
+                <i class="fas fa-crosshairs"></i> Recommend
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'fertilizer_suggest' %}"
+                class="nav-link {% if active_page == 'fertilizer' %}active{% endif %}">
+                <i class="fas fa-bag-shopping"></i> Fertilizer
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'dashboard' %}" class="nav-link {% if active_page == 'dashboard' %}active{% endif %}">
+                <i class="fas fa-chart-bar"></i> Dashboard
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="user-area">
+        {% if request.user.is_authenticated %}
+        <div class="user-profile" id="userProfileBtn" onclick="toggleLogout()">
+            <div class="user-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <span>{{ request.user.username }}</span>
+            <i class="fas fa-chevron-down" style="font-size: 12px; color: #888;"></i>
+        </div>
+
+        <div class="logout-dropdown" id="logoutDropdown">
+            <a href="{% url 'logout' %}">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+        {% else %}
+        <div class="auth-links">
+            <a href="{% url 'login' %}">Login / Signup</a>
+        </div>
+        {% endif %}
+    </div>
+</nav>
+
+<script>
+    function toggleLogout() {
+        document.getElementById("logoutDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.closest('.user-profile')) {
+            var dropdowns = document.getElementsByClassName("logout-dropdown");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>

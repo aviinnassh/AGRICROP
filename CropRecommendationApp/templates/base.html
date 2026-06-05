@@ -1,0 +1,1413 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGRICROP - Smart Crop Recommendation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #348A46;
+            --primary-green-hover: #297038;
+            --light-green: #E8F5E9;
+            --text-dark: #1A1A1A;
+            --text-gray: #666666;
+            --bg-color: #F8FAF9;
+            --white: #FFFFFF;
+            --border-color: #E2E8F0;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: transparent;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            text-decoration: none;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-green);
+        }
+
+        .nav-links a.active {
+            border-bottom: 2px solid var(--primary-green);
+            padding-bottom: 4px;
+        }
+
+        .nav-auth {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-outline {
+            padding: 0.6rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            background: var(--white);
+            color: var(--text-dark);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        .btn-primary {
+            padding: 0.6rem 1.5rem;
+            background-color: var(--primary-green);
+            color: var(--white);
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-green-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 5% 2rem;
+            overflow: hidden;
+        }
+
+        .hero-bg-shape {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(135deg, #eaf2e3 0%, #d5e8ce 100%);
+            border-bottom-left-radius: 40%;
+            z-index: -1;
+        }
+
+        .hero-bg-image {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80');
+            background-size: cover;
+            background-position: center;
+            border-bottom-left-radius: 35vw;
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        .hero-content {
+            width: 50%;
+            padding-right: 3rem;
+            animation: slideInLeft 1s ease forwards;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--light-green);
+            color: var(--primary-green);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: var(--primary-green);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 90%;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-buttons .btn-primary {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        .hero-buttons .btn-outline {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        .hero-features {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--light-green);
+            color: var(--primary-green);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .feature-text h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .feature-text p {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        /* Glass Cards on right side */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .soil-analysis-card {
+            top: 20%;
+            right: 25%;
+            width: 250px;
+        }
+
+        .soil-analysis-card h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-green);
+        }
+
+        .soil-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .progress-bar {
+            width: 80px;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary-green);
+        }
+
+        .phone-mockup {
+            position: absolute;
+            bottom: -5%;
+            right: 15%;
+            width: 280px;
+            height: 560px;
+            background: #111;
+            border-radius: 40px;
+            border: 10px solid #333;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: float 7s ease-in-out infinite reverse;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-header {
+            background: var(--primary-green);
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            padding: 2rem 1.5rem 1rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .phone-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .phone-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .phone-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Stats Bar */
+        .stats-container {
+            position: relative;
+            z-index: 10;
+            margin: -4rem 5% 4rem;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 3rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-text h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 0.2rem;
+        }
+
+        .stat-text p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Auth Section */
+        #auth-section {
+            padding: 0;
+            background-color: #F8FAF9;
+            min-height: 100vh;
+            display: flex;
+            scroll-margin-top: 0;
+            position: relative;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+            background: #F8FAF9;
+            min-height: 100vh;
+        }
+
+        .auth-image {
+            width: 50%;
+            background-image: url('https://images.unsplash.com/photo-1586771107445-d3af2e283281?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .auth-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(248, 250, 249, 0.3) 0%, rgba(248, 250, 249, 0.7) 60%, rgba(248, 250, 249, 1) 100%);
+            z-index: 1;
+        }
+
+        .auth-image-overlay {
+            position: relative;
+            z-index: 2;
+            background: transparent;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-dark);
+            height: 100%;
+        }
+
+        .auth-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            text-decoration: none;
+        }
+
+        .auth-image-overlay h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #0f3319;
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+
+        .auth-image-overlay h2 span {
+            color: var(--primary-green);
+            display: block;
+        }
+
+        .auth-image-overlay>p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+            max-width: 85%;
+            line-height: 1.5;
+        }
+
+        .auth-features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .auth-feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            max-width: 90%;
+        }
+
+        .auth-feature-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--white);
+            color: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .auth-feature-text h4 {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .auth-feature-text p {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .auth-trust-badge {
+            margin-top: auto;
+            background: var(--white);
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            width: max-content;
+        }
+
+        .auth-trust-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-green);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .auth-trust-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-trust-text strong {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+        }
+
+        .auth-trust-text span {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        .auth-forms {
+            width: 50%;
+            padding: 2rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-form-card {
+            width: 100%;
+            max-width: 500px;
+            background: var(--white);
+            padding: 2.5rem 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-toggle {
+            display: flex;
+            margin-bottom: 2rem;
+            background: var(--white);
+            border-radius: 12px;
+            padding: 0;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .form-toggle button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-toggle button.active {
+            background: var(--primary-green);
+            color: var(--white);
+            border-radius: 10px;
+            margin: 4px;
+        }
+
+        .auth-form {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+            background: var(--white);
+            box-sizing: border-box;
+        }
+
+        .input-with-icon input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+
+        .auth-form .btn-primary {
+            width: 100%;
+            justify-content: center;
+            padding: 1rem;
+            font-size: 1.05rem;
+            margin-top: 1rem;
+            border-radius: 10px;
+        }
+
+        .auth-header {
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h3 {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .auth-header p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 2rem 0 1.5rem;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .auth-divider span {
+            padding: 0 1rem;
+        }
+
+        .auth-footer-text {
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--text-gray);
+        }
+
+        .auth-footer-text a {
+            color: var(--primary-green);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .custom-checkbox input {
+            accent-color: var(--primary-green);
+            width: 16px;
+            height: 16px;
+        }
+
+        .forgot-link {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .messages-container .error-msg {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            background-color: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fca5a5;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .messages-container .success-msg {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            background-color: #eaf2e3;
+            color: #348A46;
+            border: 1px solid #a3d9a5;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--white);
+            color: var(--text-dark);
+            padding: 3rem 5% 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        footer .footer-logo {
+            color: var(--primary-green);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-right: 0.5rem;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+
+        .animate-on-scroll.is-visible {
+            visibility: visible;
+            animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                width: 60%;
+            }
+
+            .stats-container {
+                flex-wrap: wrap;
+                gap: 2rem;
+                justify-content: space-around;
+            }
+
+            .auth-container {
+                flex-direction: column;
+            }
+
+            .auth-image,
+            .auth-forms {
+                width: 100%;
+            }
+
+            .auth-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                background: var(--white);
+                padding: 1rem;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .hero {
+                flex-direction: column;
+                padding-top: 10rem;
+                text-align: center;
+            }
+
+            .hero-content {
+                width: 100%;
+                padding-right: 0;
+            }
+
+            .hero-bg-shape,
+            .hero-bg-image {
+                width: 100%;
+                height: 50%;
+                top: auto;
+                bottom: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-features {
+                justify-content: center;
+            }
+
+            .glass-card,
+            .phone-mockup {
+                display: none;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <i class="fa-solid fa-leaf"></i> AGRICROP
+        </a>
+
+
+
+        <div class="nav-auth">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="btn-outline"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+            <a href="{% url 'logout' %}" class="btn-primary"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            {% else %}
+            <a href="#auth-section" class="btn-outline" onclick="showForm('login')"><i class="fa-regular fa-user"></i>
+                Login</a>
+            <a href="#auth-section" class="btn-primary" onclick="showForm('register')"><i class="fa-solid fa-leaf"></i>
+                Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Content Block -->
+    {% block content %}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg-image"></div>
+        <div class="hero-content">
+
+            <h1>Grow <span>Smarter</span>,<br>Farm <span>Better</span>.</h1>
+            <p>Get intelligent crop recommendations based on your soil's nitrogen, phosphorus, potassium, pH, humidity
+                and rainfall — powered by machine learning.</p>
+
+            <div class="hero-buttons">
+                <a href="#auth-section" class="btn-primary" onclick="showForm('register')"><i
+                        class="fa-solid fa-leaf"></i> Create Account</a>
+                <a href="#auth-section" class="btn-outline" onclick="showForm('login')"><i
+                        class="fa-solid fa-arrow-right-to-bracket"></i> Login</a>
+            </div>
+
+            <div class="hero-features">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-seedling"></i></div>
+                    <div class="feature-text">
+                        <h4>AI-Powered<br>Recommendations</h4>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="color: #2e7d32;"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="feature-text">
+                        <h4>High Accuracy<br>Predictions</h4>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="color: #f57c00;"><i class="fa-solid fa-coins"></i></div>
+                    <div class="feature-text">
+                        <h4>Better Yields<br>Higher Profits</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="glass-card soil-analysis-card">
+            <h3><i class="fa-solid fa-flask"></i> Soil Analysis</h3>
+
+            <div class="soil-stat"><span>Nitrogen</span><span>78%</span></div>
+            <div class="progress-bar mb-3">
+                <div class="progress" style="width: 78%;"></div>
+            </div>
+
+            <div class="soil-stat"><span>Phosphorus</span><span>65%</span></div>
+            <div class="progress-bar mb-3">
+                <div class="progress" style="width: 65%;"></div>
+            </div>
+
+            <div class="soil-stat"><span>Potassium</span><span>82%</span></div>
+            <div class="progress-bar mb-3">
+                <div class="progress" style="width: 82%;"></div>
+            </div>
+
+            <div class="soil-stat"><span>pH Level</span><span>6.8</span></div>
+            <div class="progress-bar mb-3">
+                <div class="progress" style="width: 60%; background: #ffb300;"></div>
+            </div>
+        </div>
+
+        <div class="phone-mockup">
+            <div class="phone-screen">
+                <div class="phone-header">
+                    <p style="margin:0; font-size:0.9rem; opacity:0.8;">Recommended Crop</p>
+                    <h3 style="margin:0; font-size:1.5rem;">Maize</h3>
+                </div>
+                <div class="phone-card">
+                    <img src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Maize">
+                    <p style="font-size: 0.8rem; color: #666; margin-bottom: 0.3rem;">Suitability Score</p>
+                    <h4 style="color: var(--primary-green);">95%</h4>
+                    <div class="progress-bar" style="width: 100%; height: 8px; margin-top: 0.5rem;">
+                        <div class="progress" style="width: 95%;"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: auto;">
+                    <span style="color: var(--primary-green); font-weight: 600; font-size: 0.9rem;">View Details</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-container">
+        <div class="stat-item">
+            <div class="stat-icon" style="color: #2e7d32;"><i class="fa-solid fa-leaf"></i></div>
+            <div class="stat-text">
+                <h3>32+</h3>
+                <p>Crop Types</p>
+                <span style="font-size: 0.8rem; color: var(--text-gray);">Wide variety of crops</span>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon" style="color: #f57c00;"><i class="fa-solid fa-bullseye"></i></div>
+            <div class="stat-text">
+                <h3>99%</h3>
+                <p>Prediction Accuracy</p>
+                <span style="font-size: 0.8rem; color: var(--text-gray);">AI models you can trust</span>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon" style="color: #1976d2;"><i class="fa-solid fa-users"></i></div>
+            <div class="stat-text">
+                <h3>10K+</h3>
+                <p>Happy Farmers</p>
+                <span style="font-size: 0.8rem; color: var(--text-gray);">Growing with us</span>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon" style="color: #9c27b0;"><i class="fa-solid fa-headset"></i></div>
+            <div class="stat-text">
+                <h3>24/7</h3>
+                <p>AI Support</p>
+                <span style="font-size: 0.8rem; color: var(--text-gray);">Always here to help</span>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+
+    {% block auth_section %}
+    <!-- Auth Section -->
+    <section id="auth-section">
+        <div class="auth-container">
+            <div class="auth-image animate-on-scroll">
+                <div class="auth-image-overlay" style="padding-right: 2rem;">
+
+
+                    <h2
+                        style="font-size: 3.5rem; font-weight: 800; margin-top: 1.5rem; margin-bottom: 0.5rem; line-height: 1.1; letter-spacing: -1px;">
+                        <span style="color: #1A1A1A;">Empowering Farmers.</span><br>
+                        <span
+                            style="background: linear-gradient(135deg, #348A46, #1b5e20); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Growing
+                            Tomorrow.</span>
+                    </h2>
+
+                    <p
+                        style="font-size: 1.15rem; color: #555; line-height: 1.5; margin-bottom: 2.5rem; max-width: 90%; font-weight: 500;">
+                        AI-powered crop recommendations and insights<br>to maximize your farm's potential.
+                    </p>
+
+                    <div class="auth-features-list" style="display: flex; flex-direction: column; gap: 1.2rem;">
+                        <div class="auth-feature-item"
+                            style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1.2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 15px 35px rgba(52, 138, 70, 0.15)';"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.03)';">
+                            <div class="auth-feature-icon"
+                                style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); color: #2e7d32; width: 55px; height: 55px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 15px rgba(46, 125, 50, 0.1); flex-shrink: 0;">
+                                <i class="fa-solid fa-seedling"></i>
+                            </div>
+                            <div class="auth-feature-text">
+                                <h4
+                                    style="font-weight: 800; font-size: 1.05rem; color: #1a1a1a; margin-bottom: 0.2rem; margin-top: 0;">
+                                    Smart Crop Recommendations</h4>
+                                <p style="font-size: 0.9rem; color: #666; margin: 0; line-height: 1.4;">Get the best
+                                    crop suggestions based on<br>your soil, weather, and field data.</p>
+                            </div>
+                        </div>
+
+                        <div class="auth-feature-item"
+                            style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1.2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 15px 35px rgba(245, 124, 0, 0.15)';"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.03)';">
+                            <div class="auth-feature-icon"
+                                style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); color: #f57c00; width: 55px; height: 55px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 15px rgba(245, 124, 0, 0.1); flex-shrink: 0;">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div class="auth-feature-text">
+                                <h4
+                                    style="font-weight: 800; font-size: 1.05rem; color: #1a1a1a; margin-bottom: 0.2rem; margin-top: 0;">
+                                    Data-Driven Insights</h4>
+                                <p style="font-size: 0.9rem; color: #666; margin: 0; line-height: 1.4;">Make informed
+                                    decisions with real-time<br>analytics and trends.</p>
+                            </div>
+                        </div>
+
+                        <div class="auth-feature-item"
+                            style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1.2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 15px 35px rgba(21, 101, 192, 0.15)';"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.03)';">
+                            <div class="auth-feature-icon"
+                                style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); color: #1565c0; width: 55px; height: 55px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 15px rgba(21, 101, 192, 0.1); flex-shrink: 0;">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div class="auth-feature-text">
+                                <h4
+                                    style="font-weight: 800; font-size: 1.05rem; color: #1a1a1a; margin-bottom: 0.2rem; margin-top: 0;">
+                                    Secure & Reliable</h4>
+                                <p style="font-size: 0.9rem; color: #666; margin: 0; line-height: 1.4;">Your data is
+                                    protected with enterprise-<br>grade security.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="auth-forms animate-on-scroll" style="animation-delay: 0.2s;">
+                <div class="auth-form-card">
+                    {% if messages %}
+                    <div class="messages-container">
+                        {% for message in messages %}
+                        <div class="{% if message.tags == 'error' %}error-msg{% else %}success-msg{% endif %}">
+                            <i class="fa-solid fa-triangle-exclamation"></i> {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="form-toggle">
+                        <button id="toggle-login" class="active" onclick="showForm('login')"><i
+                                class="fa-solid fa-lock"></i> Login</button>
+                        <button id="toggle-register" onclick="showForm('register')"
+                            style="background: transparent; color: var(--text-gray);"><i
+                                class="fa-solid fa-user-plus"></i> Create Account</button>
+                    </div>
+
+                    <div id="forms-container"
+                        style="position: relative; transition: height 0.3s ease; overflow: hidden;">
+                        <!-- Login Form -->
+                        <div id="login-form" class="auth-form active">
+                            <div class="auth-header" style="display: flex; align-items: center; gap: 1rem;">
+                                <div
+                                    style="width: 50px; height: 50px; background: var(--light-green); color: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                                    <i class="fa-solid fa-seedling"></i>
+                                </div>
+                                <div>
+                                    <h3 style="margin-bottom: 0.2rem;">Welcome Back!</h3>
+                                    <p style="margin: 0; font-size: 0.9rem;">Please login to your account to continue.
+                                    </p>
+                                </div>
+                            </div>
+                            <form action="{% url 'login' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="login-username">Username or Email</label>
+                                    <div class="input-with-icon">
+                                        <i class="fa-regular fa-user"></i>
+                                        <input type="text" id="login-username" name="username"
+                                            placeholder="Enter your username or email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="login-password">Password</label>
+                                    <div class="input-with-icon">
+                                        <i class="fa-solid fa-lock"></i>
+                                        <input type="password" id="login-password" name="password"
+                                            placeholder="••••••••">
+                                    </div>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox"
+                                            onclick="document.getElementById('login-password').type = this.checked ? 'text' : 'password'">
+                                        Show password
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn-primary"><i class="fa-solid fa-right-to-bracket"></i>
+                                    Login to Account</button>
+                            </form>
+                            <div class="auth-divider"><span>or</span></div>
+                            <div class="auth-footer-text">
+                                New to AGRICROP? <a href="#" onclick="showForm('register'); return false;">Create your
+                                    account</a>
+                            </div>
+                        </div>
+
+                        <!-- Register Form -->
+                        <div id="register-form" class="auth-form">
+                            <div class="auth-header">
+                                <h3>Create Account</h3>
+                                <p>Start your journey to smarter farming today.</p>
+                            </div>
+                            <form action="{% url 'register' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="reg-username">Username</label>
+                                    <div class="input-with-icon">
+                                        <i class="fa-regular fa-user"></i>
+                                        <input type="text" id="reg-username" name="username"
+                                            placeholder="Choose a username">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg-email">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fa-regular fa-envelope"></i>
+                                        <input type="email" id="reg-email" name="email" placeholder="Enter your email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg-password">Password</label>
+                                    <div class="input-with-icon">
+                                        <i class="fa-solid fa-lock"></i>
+                                        <input type="password" id="reg-password" name="password"
+                                            placeholder="Create a strong password">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg-confirm">Confirm Password</label>
+                                    <div class="input-with-icon">
+                                        <i class="fa-solid fa-lock"></i>
+                                        <input type="password" id="reg-confirm" name="confirm_password"
+                                            placeholder="Repeat your password">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary"><i class="fa-solid fa-user-check"></i> Create
+                                    Account</button>
+                            </form>
+                            <div class="auth-divider"><span>or</span></div>
+                            <div class="auth-footer-text">
+                                Already have an account? <a href="#" onclick="showForm('login'); return false;">Login
+                                    here</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock auth_section %}
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            <span class="footer-logo"><i class="fa-solid fa-leaf"></i> AGRICROP</span>
+            - Smart Farming Platform.
+        </p>
+    </footer>
+
+    <script>
+        function showForm(formType) {
+            const currentForm = document.querySelector('.auth-form.active');
+            const targetForm = document.getElementById(formType + '-form');
+            const container = document.getElementById('forms-container');
+
+            if (currentForm === targetForm) return;
+
+            // Update toggle buttons
+            document.getElementById('toggle-login').classList.remove('active');
+            document.getElementById('toggle-register').classList.remove('active');
+            document.getElementById('toggle-login').style.background = 'transparent';
+            document.getElementById('toggle-login').style.color = 'var(--text-gray)';
+            document.getElementById('toggle-register').style.background = 'transparent';
+            document.getElementById('toggle-register').style.color = 'var(--text-gray)';
+
+            if (formType === 'login') {
+                document.getElementById('toggle-login').classList.add('active');
+                document.getElementById('toggle-login').style.background = '';
+                document.getElementById('toggle-login').style.color = '';
+            } else {
+                document.getElementById('toggle-register').classList.add('active');
+                document.getElementById('toggle-register').style.background = '';
+                document.getElementById('toggle-register').style.color = '';
+            }
+
+            if (currentForm) {
+                // Set fixed height to current height
+                container.style.height = container.offsetHeight + 'px';
+
+                currentForm.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+                currentForm.style.opacity = '0';
+                currentForm.style.transform = 'translateY(-10px)';
+
+                setTimeout(() => {
+                    currentForm.classList.remove('active');
+                    currentForm.style.display = 'none';
+                    currentForm.style.transform = '';
+
+                    targetForm.style.display = 'block';
+
+                    // Set new height for transition
+                    const newHeight = targetForm.offsetHeight;
+                    container.style.height = newHeight + 'px';
+
+                    targetForm.style.opacity = '0';
+                    targetForm.style.transform = 'translateY(10px)';
+
+                    // Force reflow
+                    void targetForm.offsetWidth;
+
+                    targetForm.classList.add('active');
+                    targetForm.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    targetForm.style.opacity = '1';
+                    targetForm.style.transform = 'translateY(0)';
+
+                    // Reset height after transition
+                    setTimeout(() => {
+                        container.style.height = 'auto';
+                        targetForm.style.transition = '';
+                        currentForm.style.transition = '';
+                    }, 300);
+                }, 200);
+            } else {
+                targetForm.classList.add('active');
+            }
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+
+    {% if login_error or register_error or messages %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(function () {
+                document.getElementById("auth-section").scrollIntoView({ behavior: 'smooth' });
+                const isRegisterError = "{{ register_error|yesno:'true,false' }}" === "true";
+                if (isRegisterError) {
+                    showForm('register');
+                }
+            }, 100);
+        });
+    </script>
+    {% endif %}
+</body>
+
+</html>
